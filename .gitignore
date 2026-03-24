@@ -1,0 +1,40 @@
+# Variables de entorno y credenciales — NUNCA subir al repo
+.env
+.env.production
+.env.local
+
+# Dependencias de Composer
+vendor/
+
+# Caché y logs
+*.log
+logs/
+cache/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs y editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Docker — volúmenes y datos locales
+docker/data/
+mysql_data/
+
+# PHPUnit
+.phpunit.result.cache
+coverage/
+
+# Uploads de usuarios (archivos subidos por la app)
+public/uploads/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+
