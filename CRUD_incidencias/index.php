@@ -1,6 +1,6 @@
+<?php
 session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
 // Conexión a la base de datos
 $db = new PDO(
     'mysql:host=mysql-db-p2;dbname=reparaya;charset=utf8mb4',
