@@ -42,7 +42,8 @@ class AuthController {
             );
 
             if ($ok) {
-                echo "Usuario registrado correctamente <br>";
+                header("Location: index.php?action=login");
+exit;
             } else {
                 echo "Error al registrar";
             }
