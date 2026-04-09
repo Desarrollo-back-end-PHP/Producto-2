@@ -38,8 +38,7 @@ class IncidenciaController {
         if ($tipo_servicio === 'estandar' && !empty($fecha_servicio)) {
             $ahora = new DateTime();
             $fechaSolicitada = new DateTime($fecha_servicio);
-            $diferencia = $ahora->diff($fechaSolicitada);
-            $horasTotales = ($diferencia->days * 24) + $diferencia->h;
+            $horasTotales = ($fechaSolicitada->getTimestamp() - $ahora->getTimestamp()) / 3600;
 
             if ($fechaSolicitada <= $ahora) {
                 $errores[] = 'La fecha de servicio debe ser futura.';

@@ -58,8 +58,7 @@ class Incidencia {
 
         $ahora = new DateTime();
         $fechaServicio = new DateTime($incidencia['fecha_servicio']);
-        $diferencia = $ahora->diff($fechaServicio);
-        $horasRestantes = ($diferencia->days * 24) + $diferencia->h;
+        $horasRestantes = ($fechaServicio->getTimestamp() - $ahora->getTimestamp()) / 3600;
 
         if ($horasRestantes < 48) return false; // No se puede cancelar
 
