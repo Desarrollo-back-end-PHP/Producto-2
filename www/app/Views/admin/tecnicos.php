@@ -22,6 +22,7 @@
             <input type="email" name="email" placeholder="Email">
             <input type="text" name="especialidad" placeholder="Especialidad (ej: Fontanería, Electricidad...)">
             <input type="tel" name="telefono" placeholder="Teléfono">
+            <input type="password" name="password" placeholder="Contraseña de acceso (para que pueda loguearse)">
             <button type="submit">Añadir Técnico</button>
         </form>
     </div>
