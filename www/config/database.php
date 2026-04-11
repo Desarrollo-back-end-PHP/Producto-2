@@ -7,15 +7,19 @@ class Database {
     public function connect() {
         try {
             $conn = new PDO(
-                "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
+                "mysql:host=" . $this->host . ";dbname=" . $this->db_name . ";charset=utf8mb4",
                 $this->username,
                 $this->password
             );
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $conn;
         } catch (PDOException $e) {
-            echo "Error conexión: " . $e->getMessage();
+            die("Error conexión: " . $e->getMessage());
         }
     }
 }
-?>
+
+// También creamos $pdo global para los modelos que lo usan
+$database = new Database();
+$pdo = $database->connect();

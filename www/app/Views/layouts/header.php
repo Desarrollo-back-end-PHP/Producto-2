@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReparaYa</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/calendario.css">
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
 <nav>
     <a href="/index.php">ReparaYa</a>
     <?php if (isLoggedIn()): ?>
         <?php if (isAdmin()): ?>
-            <a href="/index.php?url=admin/index">Panel Admin</a>
-            <a href="/index.php?url=admin/calendario">Calendario</a>
+            <a href="/index.php?action=panel_admin">Panel Admin</a>
+            <a href="/index.php?action=calendario">Calendario</a>
+            <a href="/index.php?action=tecnicos">Tecnicos</a>
         <?php elseif (isTecnico()): ?>
-            <a href="/index.php?url=tecnico/agenda">Mi Agenda</a>
+            <a href="/index.php?action=agenda">Mi Agenda</a>
         <?php else: ?>
-            <a href="/index.php?url=incidencia/avisos">Mis Avisos</a>
-            <a href="/index.php?url=incidencia/nueva">Nueva Solicitud</a>
+            <a href="/index.php?action=mis_avisos">Mis Avisos</a>
+            <a href="/index.php?action=nueva_solicitud">Nueva Solicitud</a>
         <?php endif; ?>
-        <a href="/index.php?url=perfil/index">Mi Perfil</a>
-        <a href="/index.php?url=auth/logout">Cerrar sesion</a>
+        <a href="/index.php?action=perfil">Mi Perfil</a>
+        <a href="/logout.php">Cerrar sesion</a>
     <?php else: ?>
-        <a href="/index.php?url=auth/login">Login</a>
-        <a href="/index.php?url=auth/registro">Registro</a>
+        <a href="/index.php?action=login">Login</a>
+        <a href="/index.php?action=registro">Registro</a>
     <?php endif; ?>
 </nav>
