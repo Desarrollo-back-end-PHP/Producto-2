@@ -164,14 +164,88 @@ if ($action == "registro") {
         header("Location: index.php?action=login");
         exit;
     }
-    echo "<h1>Gestión de Técnicos</h1><p>Módulo pendiente de Persona 4.</p>";
-    echo "<a href='index.php?action=dashboard'>Volver</a>";
+    require_once "app/Models/Tecnico.php";
+    require_once "app/Models/TipoServicio.php";
+    require_once "app/Controllers/TecnicoController.php";
+    $tecnicoController = new TecnicoController();
+    $tecnicoController->index();
+
+} elseif ($action == "crear_tecnico") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/Tecnico.php";
+    require_once "app/Controllers/TecnicoController.php";
+    $tecnicoController = new TecnicoController();
+    $tecnicoController->crear();
+
+} elseif ($action == "editar_tecnico") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/Tecnico.php";
+    require_once "app/Controllers/TecnicoController.php";
+    $tecnicoController = new TecnicoController();
+    $tecnicoController->editar((int)($_GET['id'] ?? 0));
+
+} elseif ($action == "eliminar_tecnico") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/Tecnico.php";
+    require_once "app/Controllers/TecnicoController.php";
+    $tecnicoController = new TecnicoController();
+    $tecnicoController->eliminar((int)($_GET['id'] ?? 0));
+
+} elseif ($action == "tipos_servicio") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/TipoServicio.php";
+    require_once "app/Controllers/ServicioController.php";
+    $servicioController = new ServicioController();
+    $servicioController->index();
+
+} elseif ($action == "crear_tipo_servicio") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/TipoServicio.php";
+    require_once "app/Controllers/ServicioController.php";
+    $servicioController = new ServicioController();
+    $servicioController->crear();
+
+} elseif ($action == "editar_tipo_servicio") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/TipoServicio.php";
+    require_once "app/Controllers/ServicioController.php";
+    $servicioController = new ServicioController();
+    $servicioController->editar((int)($_GET['id'] ?? 0));
+
+} elseif ($action == "eliminar_tipo_servicio") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Models/TipoServicio.php";
+    require_once "app/Controllers/ServicioController.php";
+    $servicioController = new ServicioController();
+    $servicioController->eliminar((int)($_GET['id'] ?? 0));
 
 } elseif ($action == "agenda") {
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
     }
+    require_once "app/Models/Tecnico.php";
     require_once "app/Controllers/TecnicoController.php";
     $tecnicoController = new TecnicoController();
     $tecnicoController->agenda();
@@ -181,12 +255,5 @@ if ($action == "registro") {
         header("Location: index.php?action=dashboard");
         exit;
     }
-    require "app/Views/layouts/header.php";
-    echo '<div class="container">';
-    echo '<h1>Bienvenido a ReparaYa</h1>';
-    echo '<p style="margin-bottom:20px;">Tu sistema de gestión de incidencias domésticas.</p>';
-    echo '<a href="?action=login" class="btn">Iniciar Sesión</a> &nbsp;';
-    echo '<a href="?action=registro" class="btn btn-success">Crear Cuenta</a>';
-    echo '</div>';
-    require "app/Views/layouts/footer.php";
+    require "app/Views/layouts/home.php";
 }
