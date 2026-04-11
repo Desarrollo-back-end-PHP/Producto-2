@@ -39,11 +39,11 @@ $action = $_GET['action'] ?? null;
 
 if ($action == "registro") {
     $controller->registro();
-    require "app/views/auth/registro.php";
+    require "app/Views/auth/registro.php";
 
 } elseif ($action == "login") {
     $error = $controller->login();
-    require "app/views/auth/login.php";
+    require "app/Views/auth/login.php";
 
 } elseif ($action == "dashboard") {
     if (!isset($_SESSION['usuario'])) {
@@ -52,11 +52,11 @@ if ($action == "registro") {
     }
     $rol = $_SESSION['usuario']['rol'];
     if ($rol == 'admin') {
-        require "app/views/dashboard/admin.php";
+        require "app/Views/dashboard/admin.php";
     } elseif ($rol == 'tecnico') {
-        require "app/views/dashboard/tecnico.php";
+        require "app/Views/dashboard/tecnico.php";
     } else {
-        require "app/views/dashboard/cliente.php";
+        require "app/Views/dashboard/cliente.php";
     }
 
 } elseif ($action == "perfil") {
@@ -64,10 +64,10 @@ if ($action == "registro") {
         header("Location: index.php?action=login");
         exit;
     }
-    require_once "app/controllers/UsuarioController.php";
+    require_once "app/Controllers/UsuarioController.php";
     $userController = new UsuarioController();
     $userController->actualizar();
-    require "app/views/perfil/perfil.php";
+    require "app/Views/perfil/perfil.php";
 
 } elseif ($action == "nueva_solicitud") {
     if (!isset($_SESSION['usuario'])) {
@@ -114,6 +114,42 @@ if ($action == "registro") {
     $adminController = new AdminController();
     $adminController->index();
 
+} elseif ($action == "crear_aviso") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/AdminController.php";
+    $adminController = new AdminController();
+    $adminController->crear();
+
+} elseif ($action == "editar_aviso") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/AdminController.php";
+    $adminController = new AdminController();
+    $adminController->editar($_GET['id'] ?? 0);
+
+} elseif ($action == "cancelar_aviso") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/AdminController.php";
+    $adminController = new AdminController();
+    $adminController->cancelar($_GET['id'] ?? 0);
+
+} elseif ($action == "asignar_tecnico") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/AdminController.php";
+    $adminController = new AdminController();
+    $adminController->asignarTecnico();
+
 } elseif ($action == "calendario") {
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
@@ -141,8 +177,16 @@ if ($action == "registro") {
     $tecnicoController->agenda();
 
 } else {
-    echo "<h1>Bienvenido a ReparaYa</h1>";
-    echo "<p>Tu sistema de gestión de incidencias.</p>";
-    echo "<a href='?action=login'>Iniciar Sesión</a> | ";
-    echo "<a href='?action=registro'>Crear Cuenta</a>";
+    if (isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=dashboard");
+        exit;
+    }
+    require "app/Views/layouts/header.php";
+    echo '<div class="container">';
+    echo '<h1>Bienvenido a ReparaYa</h1>';
+    echo '<p style="margin-bottom:20px;">Tu sistema de gestión de incidencias domésticas.</p>';
+    echo '<a href="?action=login" class="btn">Iniciar Sesión</a> &nbsp;';
+    echo '<a href="?action=registro" class="btn btn-success">Crear Cuenta</a>';
+    echo '</div>';
+    require "app/Views/layouts/footer.php";
 }

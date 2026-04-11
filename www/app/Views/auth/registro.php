@@ -1,20 +1,21 @@
-<h2>Registro</h2>
-
-<form method="POST" action="index.php?action=registro">
-    <input type="text" name="nombre" placeholder="Nombre" required><br>
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="password" placeholder="Contraseña" required><br>
-
-    <select name="rol">
-        <option value="cliente">Cliente</option>
-        <option value="tecnico">Técnico</option>
-        <option value="admin">Admin</option>
-    </select><br>
-
-    <button type="submit">Registrarse</button>
-</form>
-
-<br>
-<a href="index.php">
-    <button type="button">Volver al menú principal</button>
-</a>
+<?php require BASE_PATH . '/app/Views/layouts/header.php'; ?>
+<div class="container" style="max-width:400px;">
+    <h1>Crear Cuenta</h1>
+    <?php if(isset($error) && $error): ?>
+        <p class="error"><?php echo $error; ?></p>
+    <?php endif; ?>
+    <form method="POST" action="index.php?action=registro">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+        <select name="rol">
+            <option value="cliente">Cliente</option>
+            <option value="tecnico">Técnico</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Registrarse</button>
+    </form>
+    <br>
+    <p>¿Ya tienes cuenta? <a href="index.php?action=login">Iniciar sesión</a></p>
+</div>
+<?php require BASE_PATH . '/app/Views/layouts/footer.php'; ?>
