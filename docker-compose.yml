@@ -26,19 +26,19 @@ services:
     volumes:
       - db_data_p2:/var/lib/mysql
 
-  # Laravel - Producto 2
-  laravel-app-p2:
-    build:
-      context: .
-      dockerfile: Dockerfile-php
-    container_name: laravel-app-p2
-    restart: always
-    volumes:
-      - ./laravel:/var/www/html
-    ports:
-      - "8092:80"
-    depends_on:
-      - db-p2
+  # # Laravel - Producto 2
+  # laravel-app-p2:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-php
+  #   container_name: laravel-app-p2
+  #   restart: always
+  #   volumes:
+  #     - ./laravel:/var/www/html
+  #   ports:
+  #     - "8092:80"
+  #   depends_on:
+  #     - db-p2
 
   # PhpMyAdmin - Producto 2
   phpmyadmin-p2:

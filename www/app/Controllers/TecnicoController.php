@@ -38,17 +38,37 @@ class TecnicoController {
     public function crear(): void {
         requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombre = trim($_POST['nombre'] ?? '');
+            $nombre   = trim($_POST['nombre'] ?? '');
+            $email    = trim($_POST['email'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+
             if ($nombre === '') {
                 header('Location: index.php?action=tecnicos&error=nombre_vacio');
                 exit;
             }
+
+            // Crear registro en tabla tecnicos
             Tecnico::crear([
                 'nombre'       => $nombre,
-                'email'        => trim($_POST['email'] ?? ''),
+                'email'        => $email,
                 'especialidad' => trim($_POST['especialidad'] ?? ''),
                 'telefono'     => trim($_POST['telefono'] ?? ''),
             ]);
+
+            // Si tiene email y contraseña, crear también el usuario para que pueda loguearse
+            if ($email !== '' && $password !== '') {
+                global $pdo;
+                // Solo si no existe ya ese email en usuarios
+                $check = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
+                $check->execute([$email]);
+                if (!$check->fetch()) {
+                    $hash = password_hash($password, PASSWORD_DEFAULT);
+                    $stmt = $pdo->prepare(
+                        "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'tecnico')"
+                    );
+                    $stmt->execute([$nombre, $email, $hash]);
+                }
+            }
         }
         header('Location: index.php?action=tecnicos&exito=creado');
         exit;
