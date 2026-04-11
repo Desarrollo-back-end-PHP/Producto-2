@@ -1,10 +1,11 @@
 <?php
 require_once BASE_PATH . '/app/Models/Aviso.php';
+require_once BASE_PATH . '/app/Models/Tecnico.php';
 class AdminController {
     public function index(): void {
         requireAdmin();
         $avisos   = Aviso::findAll();
-        $tecnicos = [];
+        $tecnicos = Tecnico::findActivos();
         require BASE_PATH . '/app/Views/admin/panel.php';
     }
     public function calendario(): void {

@@ -13,7 +13,8 @@
         <?php if (isAdmin()): ?>
             <a href="/index.php?action=panel_admin">Panel Admin</a>
             <a href="/index.php?action=calendario">Calendario</a>
-            <a href="/index.php?action=tecnicos">Tecnicos</a>
+            <a href="/index.php?action=tecnicos">Técnicos</a>
+            <a href="/index.php?action=tipos_servicio">Servicios</a>
         <?php elseif (isTecnico()): ?>
             <a href="/index.php?action=agenda">Mi Agenda</a>
         <?php else: ?>
