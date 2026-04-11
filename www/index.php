@@ -1,38 +1,56 @@
 <?php
+define('BASE_PATH', __DIR__);
 
-// Arrancamos las sesiones (necesario si queremos que el usuario se mantenga logueado)
+require_once "config/database.php";
+require_once "app/config/database.php";
+
 session_start();
 
-require_once "app/controllers/AuthController.php";
+function requireAdmin() {
+    if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+        header("Location: index.php?action=login");
+        exit;
+    }
+}
 
-$controller = new AuthController();
-
-// Leemos qué acción quiere hacer el usuario (por defecto será null si acaba de entrar)
-$action = $_GET['action'] ?? null;
-
-if ($action == "registro") {
-
-    $controller->registro();
-    require "app/views/auth/registro.php";
-
-} elseif ($action == "login") {
-
-    // GUARDAMOS EL ERROR EN ESTA VARIABLE
-    $error = $controller->login();
-    
-    require "app/views/auth/login.php";
-
-} elseif ($action == "dashboard") {
-
-    // Si intenta entrar al dashboard sin estar logueado, lo pateamos al login
+function requireLogin() {
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
     }
+}
 
-    // Si está logueado, miramos qué rol tiene y le mostramos su vista
+function isLoggedIn(): bool {
+    return isset($_SESSION['usuario']);
+}
+
+function isAdmin(): bool {
+    return isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] === 'admin';
+}
+
+function isTecnico(): bool {
+    return isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] === 'tecnico';
+}
+
+require_once "app/controllers/AuthController.php";
+$controller = new AuthController();
+
+$action = $_GET['action'] ?? null;
+
+if ($action == "registro") {
+    $controller->registro();
+    require "app/views/auth/registro.php";
+
+} elseif ($action == "login") {
+    $error = $controller->login();
+    require "app/views/auth/login.php";
+
+} elseif ($action == "dashboard") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
     $rol = $_SESSION['usuario']['rol'];
-
     if ($rol == 'admin') {
         require "app/views/dashboard/admin.php";
     } elseif ($rol == 'tecnico') {
@@ -42,22 +60,16 @@ if ($action == "registro") {
     }
 
 } elseif ($action == "perfil") {
-
-    // PROTECCIÓN: Si no ha iniciado sesión, lo mandamos al login
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
     }
-
     require_once "app/controllers/UsuarioController.php";
-
     $userController = new UsuarioController();
     $userController->actualizar();
-
     require "app/views/perfil/perfil.php";
 
 } elseif ($action == "nueva_solicitud") {
-
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
@@ -67,7 +79,6 @@ if ($action == "registro") {
     $incidenciaController->nueva();
 
 } elseif ($action == "crear_incidencia") {
-
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
@@ -77,7 +88,6 @@ if ($action == "registro") {
     $incidenciaController->crear();
 
 } elseif ($action == "mis_avisos") {
-
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
@@ -87,7 +97,6 @@ if ($action == "registro") {
     $incidenciaController->misAvisos();
 
 } elseif ($action == "cancelar_incidencia") {
-
     if (!isset($_SESSION['usuario'])) {
         header("Location: index.php?action=login");
         exit;
@@ -96,8 +105,42 @@ if ($action == "registro") {
     $incidenciaController = new IncidenciaController();
     $incidenciaController->cancelar();
 
+} elseif ($action == "panel_admin") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/AdminController.php";
+    $adminController = new AdminController();
+    $adminController->index();
+
+} elseif ($action == "calendario") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/AdminController.php";
+    $adminController = new AdminController();
+    $adminController->calendario();
+
+} elseif ($action == "tecnicos") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    echo "<h1>Gestión de Técnicos</h1><p>Módulo pendiente de Persona 4.</p>";
+    echo "<a href='index.php?action=dashboard'>Volver</a>";
+
+} elseif ($action == "agenda") {
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once "app/Controllers/TecnicoController.php";
+    $tecnicoController = new TecnicoController();
+    $tecnicoController->agenda();
+
 } else {
-    // ESTA ES LA PÁGINA DE INICIO 
     echo "<h1>Bienvenido a ReparaYa</h1>";
     echo "<p>Tu sistema de gestión de incidencias.</p>";
     echo "<a href='?action=login'>Iniciar Sesión</a> | ";

@@ -1,9 +1,8 @@
 <?php
-$host = $_ENV['DB_HOST'] ?? 'db';
-$db   = $_ENV['DB_NAME'] ?? 'reparaya';
-$user = $_ENV['DB_USER'] ?? 'user';
-$pass = $_ENV['DB_PASS'] ?? 'pass';
-
+$host = 'mysql-db-p2';
+$db   = 'reparaya';
+$user = 'user';
+$pass = 'userpass';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
