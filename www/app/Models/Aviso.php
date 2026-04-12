@@ -5,9 +5,9 @@ class Aviso {
         return $pdo;
     }
 
-    public static function findAll(): array {
-        return self::db()->query("SELECT * FROM avisos ORDER BY fecha DESC")->fetchAll();
-    }
+   public static function findAll(): array {
+    return self::db()->query("SELECT * FROM avisos WHERE estado != 'cancelada' ORDER BY fecha DESC")->fetchAll();
+}
 
     public static function findById(int $id): array|false {
         $stmt = self::db()->prepare("SELECT * FROM avisos WHERE id = ? LIMIT 1");

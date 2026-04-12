@@ -61,7 +61,7 @@
                     <td style="display:flex; gap:5px;">
                         <a href="/index.php?action=editar_aviso&id=<?= $aviso['id'] ?>" class="btn">Ver</a>
                         <a href="/index.php?action=editar_aviso&id=<?= $aviso['id'] ?>" class="btn">Editar</a>
-                        <a href="/index.php?action=cancelar_aviso&id=<?= $aviso['id'] ?>" class="btn btn-danger" onclick="return confirm('¿Cancelar este aviso?')">Cancelar</a>
+                        <a href="index.php?action=cancelar_aviso&id=<?= $aviso['id'] ?>" class="btn btn-danger" onclick="return confirm('¿Cancelar este aviso?')">Cancelar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
