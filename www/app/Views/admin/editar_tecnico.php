@@ -19,6 +19,9 @@
         <label>Teléfono</label>
         <input type="tel" name="telefono" value="<?= htmlspecialchars($tecnico['telefono'] ?? '') ?>">
 
+        <label>Nueva contraseña de acceso (dejar en blanco para no cambiar)</label>
+        <input type="password" name="password" placeholder="Nueva contraseña">
+
         <button type="submit">Guardar cambios</button>
         <a href="/index.php?action=tecnicos" class="btn btn-danger" style="margin-left:10px;">Cancelar</a>
     </form>

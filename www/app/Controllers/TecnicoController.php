@@ -83,17 +83,42 @@ class TecnicoController {
             exit;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombre = trim($_POST['nombre'] ?? '');
+            $nombre   = trim($_POST['nombre'] ?? '');
+            $email    = trim($_POST['email'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+
             if ($nombre === '') {
                 header('Location: index.php?action=editar_tecnico&id=' . $id . '&error=nombre_vacio');
                 exit;
             }
             Tecnico::actualizar($id, [
                 'nombre'       => $nombre,
-                'email'        => trim($_POST['email'] ?? ''),
+                'email'        => $email,
                 'especialidad' => trim($_POST['especialidad'] ?? ''),
                 'telefono'     => trim($_POST['telefono'] ?? ''),
             ]);
+
+            // Si se ha puesto contraseña, actualizar o crear el usuario de acceso
+            if ($email !== '' && $password !== '') {
+                global $pdo;
+                $check = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
+                $check->execute([$email]);
+                $usuarioExistente = $check->fetch();
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+
+                if ($usuarioExistente) {
+                    // Actualizar contraseña del usuario existente
+                    $stmt = $pdo->prepare("UPDATE usuarios SET password = ?, nombre = ? WHERE email = ?");
+                    $stmt->execute([$hash, $nombre, $email]);
+                } else {
+                    // Crear usuario nuevo con rol técnico
+                    $stmt = $pdo->prepare(
+                        "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, 'tecnico')"
+                    );
+                    $stmt->execute([$nombre, $email, $hash]);
+                }
+            }
+
             header('Location: index.php?action=tecnicos&exito=editado');
             exit;
         }
