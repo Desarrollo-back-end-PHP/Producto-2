@@ -20,7 +20,12 @@
         <form method="POST" action="/index.php?action=crear_tecnico">
             <input type="text" name="nombre" placeholder="Nombre completo *" required>
             <input type="email" name="email" placeholder="Email">
-            <input type="text" name="especialidad" placeholder="Especialidad (ej: Fontanería, Electricidad...)">
+            <select name="especialidad">
+                <option value="">-- Seleccionar especialidad --</option>
+                <?php foreach ($tiposServicio as $ts): ?>
+                    <option value="<?= htmlspecialchars($ts['nombre']) ?>"><?= htmlspecialchars($ts['nombre']) ?></option>
+                <?php endforeach; ?>
+            </select>
             <input type="tel" name="telefono" placeholder="Teléfono">
             <input type="password" name="password" placeholder="Contraseña de acceso (para que pueda loguearse)">
             <button type="submit">Añadir Técnico</button>
