@@ -82,6 +82,8 @@ class TecnicoController {
             header('Location: index.php?action=tecnicos');
             exit;
         }
+        $tiposServicio = TipoServicio::findAll();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre   = trim($_POST['nombre'] ?? '');
             $email    = trim($_POST['email'] ?? '');
