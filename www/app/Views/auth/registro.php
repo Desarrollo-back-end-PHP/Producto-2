@@ -10,7 +10,6 @@
         <input type="password" name="password" placeholder="Contraseña" required>
         <select name="rol">
             <option value="cliente">Cliente</option>
-            <option value="admin">Admin</option>
         </select>
         <button type="submit">Registrarse</button>
     </form>
