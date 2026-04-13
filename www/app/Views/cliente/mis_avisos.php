@@ -36,6 +36,23 @@
 
         .btn-nueva:hover { background: #4338ca; }
 
+        .btn-dashboard {
+            background: #6b7280;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .btn-dashboard:hover { background: #4b5563; }
+
+        .botones {
+            display: flex;
+            gap: 0.5rem;
+        }
+
         .alerta {
             padding: 0.75rem 1rem;
             border-radius: 8px;
@@ -126,7 +143,10 @@
 
     <div class="header">
         <h1>📋 Mis Avisos</h1>
-        <a href="index.php?action=nueva_solicitud" class="btn-nueva">+ Nueva solicitud</a>
+        <div class="botones">
+            <a href="index.php?action=dashboard" class="btn-dashboard">← Dashboard</a>
+            <a href="index.php?action=nueva_solicitud" class="btn-nueva">+ Nueva solicitud</a>
+        </div>
     </div>
 
     <?php if (isset($_GET['exito'])): ?>
